@@ -1,5 +1,0 @@
-function [t, lru] = pullLRU(t)
-for i = 1 : length(t)
-    if
-end
-end

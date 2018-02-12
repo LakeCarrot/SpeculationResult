@@ -1,4 +1,0 @@
-function t = makeMRU(x, t)
-for i = 1 : length(t)
-    c = t(
-end
