@@ -1,0 +1,4 @@
+function [t1,t2,b1,b2,p] = arc(x,t1,t2,b1,b2,p,c)
+if ismember(t1, x) || ismember(t2, x) 
+end
+end
