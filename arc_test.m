@@ -38,7 +38,7 @@ for i = 1 : length(requests)
     requests(i) = idx;
 end
 %% test script for ARC
-for avgReq = 1 : 1: 20 % average requests per minutes
+for avgReq = 10 : 1: 10 % average requests per minutes
     lambda = avgReq/60;
     reqTimeline = poissrnd(lambda, 1, ceil(length(requests)/lambda));
     sum(reqTimeline)
@@ -48,14 +48,6 @@ for avgReq = 1 : 1: 20 % average requests per minutes
         t2 = zeros(c,3);
         b1 = zeros(c,3);
         b2 = zeros(c,3);
-        ct1 = zeros(c,3);
-        ct2 = zeros(c,3);
-        cb1 = zeros(c,3);
-        cb2 = zeros(c,3);
-        nt1 = zeros(c,3);
-        nt2 = zeros(c,3);
-        nb1 = zeros(c,3);
-        nb2 = zeros(c,3);
         t = zeros(c, 3);
         hitRecordARC = 0;
         hitRecordLRU = 0;
@@ -95,40 +87,39 @@ for avgReq = 1 : 1: 20 % average requests per minutes
             end
             counter = counter + reqs;
         end
-        hitRatioARC(avgReq, c - 19) = hitRecordARC/min(counter, length(requests));
-        hitRatioLRU(avgReq, c - 19) = hitRecordLRU/min(counter, length(requests));
-        waitAvgARC(avgReq, c - 19) = waitRecordARC/min(counter, length(requests));
-        waitAvgLRU(avgReq, c - 19) = waitRecordLRU/min(counter, length(requests));
+        hitRatioARC(avgReq - 9, c - 19) = hitRecordARC/min(counter, length(requests));
+        hitRatioLRU(avgReq - 9, c - 19) = hitRecordLRU/min(counter, length(requests));
+        waitAvgARC(avgReq - 9, c - 19) = waitRecordARC/min(counter, length(requests));
+        waitAvgLRU(avgReq - 9, c - 19) = waitRecordLRU/min(counter, length(requests));
     end
 end
 %%
-for avgReq = 1 : 20
-figure;
-plot(1:length(hitRatioARC), hitRatioARC(avgReq, :) * 100);
-hold on
-plot(1:length(hitRatioLRU), hitRatioLRU(avgReq, :) * 100);
-legend('ARC', 'LRU');
+for avgReq = 10 : 10
+    figure;
+    plot(20:100, hitRatioARC(avgReq - 9, :) * 100);
+    hold on
+    plot(20:100, hitRatioLRU(avgReq - 9, :) * 100);
+    legend('ARC', 'LRU');
 end
 %%
-for avgReq = 1 : 20
-figure;
-plot(1:length(waitAvgARC), waitAvgARC(avgReq, :));
-hold on
-plot(1:length(waitAvgLRU), waitAvgLRU(avgReq, :));
-legend('ARC', 'LRU');
+for avgReq = 10 : 10
+    figure;
+    plot(1:length(waitAvgARC), waitAvgARC(avgReq - 9, :));
+    hold on
+    plot(1:length(waitAvgLRU), waitAvgLRU(avgReq - 9, :));
+    legend('ARC', 'LRU');
 end
 %%
-for avgReq = 1 : 20
-figure;
-plot(20:100, hitRatioARC(11:91) * 100);
-hold on
-plot(20:100, hitRatioLRU(11:91) * 100);
-legend('ARC', 'LRU');
+for avgReq = 10 : 10
+    figure;
+    plot(20:100, (hitRatioARC(avgReq - 9, :) - hitRatioLRU(avgReq - 9, :))./hitRatioLRU(avgReq - 9, :) * 100);
+    figure;
+    plot(20:100, (hitRatioARC(avgReq - 9, :) - hitRatioLRU(avgReq - 9, :)) * 100);
 end
 %%
-for avgReq = 1 : 20
-%figure;
-%plot(20:100, (hitRatioARC(11:91) - hitRatioLRU(11:91))./hitRatioLRU(11:91) * 100);
-figure;
-plot(20:100, (hitRatioARC(avgReq, 11:91) - hitRatioLRU(avgReq, 11:91)) * 100);
+for avgReq = 10 : 10
+    figure;
+    plot(20:100, -(waitAvgARC(avgReq - 9, :) - waitAvgLRU(avgReq - 9, :))./waitAvgLRU(avgReq - 9, :) * 100);
+    figure;
+    plot(20:100, -(waitAvgARC(avgReq - 9, :) - waitAvgLRU(avgReq - 9, :)));
 end

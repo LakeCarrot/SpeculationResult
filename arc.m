@@ -44,7 +44,7 @@ function [t1, t2, b1, b2, p, hit, wait] = arc(x, t1, t2, b1, b2, p, c, cost)
             else
                 t1 = pullLRU(t1);
             end
-        elseif t1len + b1len + t2len + b2len > c
+        elseif t1len + b1len + t2len + b2len >= c
             [t1, t2, b1, b2, p] = repl(x, t1, t2, b1, b2, p, cost);
         elseif t1len + b1len + t2len + b2len == 2 * c
             b2 = pullLRU(b2);
