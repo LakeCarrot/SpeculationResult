@@ -1,11 +1,6 @@
 function [t, lru] = pullLRU(t)
-len = length(t);
-for i = 1 : len
-    if t(i, 2) == 1 
-        lru = t(i, 1);
-        t(i, 2) = 0;
-    else
-        t(i, 2) = t(i, 2) - 1;
-    end
-end
+lruIdx = find(~(t(:,2) - max(t(:,2))));
+lru = t(lruIdx, 1);
+t(lruIdx, 1) = 0;
+t(lruIdx, 2) = 0;
 end
